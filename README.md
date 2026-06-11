@@ -1,4 +1,5 @@
 **KanJutsu**
+
 KanJutsu is a comprehensive, web-based Kanji study aid that combines a powerful Japanese dictionary with a custom Spaced Repetition System (SRS) flashcard deck.
 
 🌱 About this Project:
