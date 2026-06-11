@@ -7,12 +7,18 @@ export default function StudySession({ cards, onUpdateCard, onExit }) {
   const [isFlipped, setIsFlipped] = useState(false);
   const [sessionStats, setSessionStats] = useState({ correct: 0, total: 0 });
 
+  ////////////////////////////////////////////////////////////
+  //////Synchronize Review Cards and prepare flashcards///////
+  ////////////////////////////////////////////////////////////
   useEffect(() => {
     const dueCards = getCardsForReview(cards);
     setCardsToReview(dueCards);
     setSessionStats({ correct: 0, total: dueCards.length });
   }, [cards]);
 
+  ///////////////////////////////////////////////
+  //////Return early if no cards to review///////
+  ///////////////////////////////////////////////
   if (cardsToReview.length === 0) {
     return (
       <div className="text-center p-5">
@@ -22,7 +28,7 @@ export default function StudySession({ cards, onUpdateCard, onExit }) {
           <hr />
           <p className="mb-0">Total cards in deck: {cards.length}</p>
         </div>
-        <button className="btn btn-primary mt-3" onClick={onExit}>
+        <button className="btn btn-primary mt-3" onClick={onExit}> {/* Use onExit callback to return to main menu */}
           Back to Main Menu
         </button>
       </div>
@@ -32,9 +38,13 @@ export default function StudySession({ cards, onUpdateCard, onExit }) {
   const currentCard = cardsToReview[currentIndex];
   const progress = ((currentIndex + 1) / cardsToReview.length) * 100;
 
+
+  //////////////////////////////////////////////////////////////////
+  //////////Update SRS Metrics and handle review session////////////
+  //////////////////////////////////////////////////////////////////
   const handleReview = (quality) => {
-    const updatedMetrics = calculateNextReview(currentCard, quality);
-    onUpdateCard(currentCard.id, updatedMetrics);
+    const updatedMetrics = calculateNextReview(currentCard, quality);// Get updated SRS metrics based on user feedback
+    onUpdateCard(currentCard.id, updatedMetrics);// Update the card in the main deck with new SRS metrics
 
     if (quality >= 3) {
       setSessionStats(prev => ({ ...prev, correct: prev.correct + 1 }));
@@ -50,7 +60,9 @@ export default function StudySession({ cards, onUpdateCard, onExit }) {
     }
   };
 
-  // Show completion screen
+  ///////////////////////////////////
+  //////Show completion screen///////
+  ///////////////////////////////////
   if (currentIndex === -1) {
     const accuracy = ((sessionStats.correct / sessionStats.total) * 100).toFixed(1);
     return (
@@ -61,7 +73,7 @@ export default function StudySession({ cards, onUpdateCard, onExit }) {
           <p>Correct: {sessionStats.correct}</p>
           <p className="mb-0">Accuracy: {accuracy}%</p>
         </div>
-        <button className="btn btn-primary mt-3" onClick={onExit}>
+        <button className="btn btn-primary mt-3" onClick={onExit}> {/* Use onExit callback to return to main menu */}
           Back to Main Menu
         </button>
       </div>
