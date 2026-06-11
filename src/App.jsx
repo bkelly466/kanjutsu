@@ -64,8 +64,8 @@ function App() {
       <div className="container my-5 text-dark">
         <div className="brand-header text-center mb-5">
           <div className="brand-badge-container">
-            <img src={logo} alt="KanKanKanji Logo" className="brand-logo-watermark" />
-            <h1 className="brand-title">KanKanKanji</h1>
+            <img src={logo} alt="KanJutsu Logo" className="brand-logo-watermark" />
+            <h1 className="brand-title">KanJutsu</h1>
           </div>
 
           <div className="brand-divider"></div>
@@ -89,8 +89,10 @@ function App() {
 
       <div className="container my-5 text-dark d-flex flex-column align-items-center">
         <div className="brand-header text-center mb-5">
-          <img src={logo} alt="KanKanKanji Logo" className="brand-logo mb-3" />
-          <h1 className="brand-title">KanKanKanji</h1>
+          <div className="brand-badge-container">
+            <img src={logo} alt="KanJutsu Logo" className="brand-logo-watermark" />
+            <h1 className="brand-title">KanJutsu</h1>
+          </div>
           <div className="brand-divider"></div>
           <p className="brand-subtitle">It's Study Time!</p>
         </div>
