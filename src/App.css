@@ -36,6 +36,7 @@
   position: relative;
   z-index: 2; /* Forces text to layer strictly on top of the PNG */
   background: linear-gradient(135deg, #1a202c 75%, #dc3545);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 0 20px rgba(255, 255, 255, 0.6); /* Keeps text crisp over the graphic */

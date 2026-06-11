@@ -1,6 +1,7 @@
 // src/components/KanjiLookup.jsx
 import React, { useState } from 'react';
 
+
 export default function KanjiLookup({ onAddCard }) {
   const [query, setQuery] = useState('');
   const [kanjiList, setKanjiList] = useState([]);
@@ -38,8 +39,23 @@ export default function KanjiLookup({ onAddCard }) {
       const fetchPromises = kanjiToSearch.map(async (char) => {
         const response = await fetch(`https://kanjiapi.dev/v1/kanji/${encodeURIComponent(char)}`);
         if (!response.ok) return null;
-        return response.json();
-      });
+        const kanjiData = await response.json();
+
+        let commonWords = [];
+        try {
+          const jishoResponse = await fetch(`/api/jisho?keyword=${encodeURIComponent(char + ' #common')}`);
+          if (jishoResponse.ok) {
+            const jishoData = await jishoResponse.json();
+            commonWords = (jishoData.data || []).slice(0, 10);
+          }
+        } catch (jishoErr) {
+          console.error(`Error fetching common words for ${char}:`, jishoErr);
+        }
+        return {
+          ...kanjiData,
+          commonWords
+        }
+    });
 
       const results = await Promise.all(fetchPromises);
       
@@ -145,6 +161,28 @@ export default function KanjiLookup({ onAddCard }) {
                       </span>
                     </div>
                   )}
+
+                  {kanjiData.commonWords && kanjiData.commonWords.length > 0 && (
+                    <div className="mt-2 border-top pt-2">
+                      <span className="d-block text-uppercase text-success fw-bold mb-1" style={{ fontSize: '10px', letterSpacing: '0.05em' }}>
+                        Common Compound Words
+                      </span>
+                      <div className="overflow-auto custom-scrollbar" style={{ maxHeight: '120px', fontSize: '13px' }}>
+                        {kanjiData.commonWords.map((wordObj, wIdx) => {
+                          const mainJP = wordObj.japanese[0];
+                          const definitions = wordObj.senses[0]?.english_definitions.join(', ') || '';
+                          return (
+                            <div key={wIdx} className="mb-1 text-truncate" title={`${mainJP.word || mainJP.reading} (${mainJP.reading}) - ${definitions}`}>
+                              <strong className="text-dark">{mainJP.word || mainJP.reading}</strong>
+                              {mainJP.word && <span className="text-muted small"> ({mainJP.reading})</span>}
+                              <span className="text-secondary"> — {definitions}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
                   <div className="mt-auto pt-3">
                     <button 
                       className="btn btn-primary w-100"
