@@ -73,9 +73,9 @@ export default function StudySession({ cards, onUpdateCard, onExit }) {
           <p>Correct: {sessionStats.correct}</p>
           <p className="mb-0">Accuracy: {accuracy}%</p>
         </div>
-        <button className="btn btn-primary mt-3" onClick={onExit}> {/* Use onExit callback to return to main menu */}
+        {/* <button className="btn btn-primary mt-3" onClick={onExit}> {/* Use onExit callback to return to main menu *
           Back to Main Menu
-        </button>
+        </button> */}
       </div>
     );
   }
