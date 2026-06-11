@@ -63,8 +63,11 @@ function App() {
       {!isStudyTime ?
       <div className="container my-5 text-dark">
         <div className="brand-header text-center mb-5">
-          <img src={logo} alt="KanKanKanji Logo" className="brand-logo mb-3" />
-          <h1 className="brand-title">KanKanKanji</h1>
+          <div className="brand-badge-container">
+            <img src={logo} alt="KanKanKanji Logo" className="brand-logo-watermark" />
+            <h1 className="brand-title">KanKanKanji</h1>
+          </div>
+
           <div className="brand-divider"></div>
           <p className="brand-subtitle">Your comprehensive Kanji study aid</p>
         </div>
